@@ -1,0 +1,5 @@
+run the stack
+- docker compose -p newtoncuff up -d
+
+stop the stack
+- docker compose -p newtoncuff down

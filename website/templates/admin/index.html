@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin.css') }}">
+{% endblock %}
+
+{% block titleHeader %}
+  {{ titleHeader }}
+{% endblock %}
+
+{% block titleSubHeader %}
+  {{ titleSubHeader }}
+{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+  <!-- First panel - Controls with dropdown and action buttons in a row -->
+  <div class="admin-card">
+    <h2>Database Object Management</h2>
+    
+    <div class="admin-controls">
+      <!-- Dropdown selector -->
+      <div class="select-container">
+        <label class="select-label" for="object-type">Select Object Type:</label>
+        <div class="custom-select">
+          <select id="object-type" name="object-type">
+            <option value="" selected disabled>-- Select an object type --</option>
+            <!-- Options will be populated dynamically -->
+          </select>
+        </div>
+      </div>
+      
+      <!-- Action buttons -->
+      <a href="#" id="create-new-btn" class="admin-link">
+        <i class="fas fa-plus-circle"></i> Create New
+      </a>
+      <a href="#" id="view-all-btn" class="admin-link">
+        <i class="fas fa-list"></i> View All
+      </a>
+    </div>
+  </div>
+  
+  <!-- Second panel - Dynamic form fields or object listing -->
+  <div class="admin-card">
+    <h2 id="panel-title">Database Object Details</h2>
+    
+    <!-- Mode indicator and controls - only visible when viewing objects -->
+    <div id="view-mode-controls" class="view-mode-controls" style="display: none;">
+      <button id="refresh-data-btn" class="refresh-btn">
+        <i class="fas fa-sync-alt"></i> Refresh
+      </button>
+      <div class="search-container">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" class="search-input" placeholder="Search objects...">
+      </div>
+    </div>
+    
+    <!-- Container for form or list view -->
+    <div id="content-container" class="form-container">
+      <div class="form-message">
+        Please select an object type from the dropdown above
+      </div>
+    </div>
+    
+    <!-- Create mode action buttons -->
+    <div id="create-actions" class="form-actions" style="display: none;">
+      <button type="button" id="submit-btn" class="submit-btn">Create Object</button>
+    </div>
+    
+    <!-- Pagination controls - only visible when viewing objects -->
+    <div id="pagination-controls" class="pagination" style="display: none;">
+      <button class="pagination-btn" data-page="first">«</button>
+      <button class="pagination-btn" data-page="prev">‹</button>
+      <span class="pagination-text">Page <span id="current-page">1</span> of <span id="total-pages">1</span></span>
+      <button class="pagination-btn" data-page="next">›</button>
+      <button class="pagination-btn" data-page="last">»</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/admin/admin.js') }}"></script>
+{% endblock %}
