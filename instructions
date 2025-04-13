@@ -3,3 +3,6 @@ run the stack
 
 stop the stack
 - docker compose -p newtoncuff down
+
+push updates to both repos (GitLab -> main and GitHub -> main
+- pushboth
