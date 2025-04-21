@@ -151,9 +151,7 @@ SELECT
     subTopicDesc,
     tag,
     hasTales,
-    (SELECT COUNT(*) FROM Tales WHERE mindObjectType = 'passions' AND mindObjectTypeId = Passions.id) AS tale_count,
-    created_at,
-    updated_at
+    (SELECT COUNT(*) FROM Tales WHERE mindObjectType = 'passions' AND mindObjectTypeId = Passions.id) AS tale_count
 FROM Passions
 
 UNION ALL
@@ -167,9 +165,7 @@ SELECT
     subTopicDesc,
     tag,
     hasTales,
-    (SELECT COUNT(*) FROM Tales WHERE mindObjectType = 'thoughts' AND mindObjectTypeId = Thoughts.id) AS tale_count,
-    created_at,
-    updated_at
+    (SELECT COUNT(*) FROM Tales WHERE mindObjectType = 'thoughts' AND mindObjectTypeId = Thoughts.id) AS tale_count
 FROM Thoughts
 
 UNION ALL
@@ -183,9 +179,7 @@ SELECT
     subTopicDesc,
     tag,
     hasTales,
-    (SELECT COUNT(*) FROM Tales WHERE mindObjectType = 'interests' AND mindObjectTypeId = Interests.id) AS tale_count,
-    created_at,
-    updated_at
+    (SELECT COUNT(*) FROM Tales WHERE mindObjectType = 'interests' AND mindObjectTypeId = Interests.id) AS tale_count
 FROM Interests
 
 UNION ALL
@@ -199,9 +193,7 @@ SELECT
     subTopicDesc,
     tag,
     hasTales,
-    (SELECT COUNT(*) FROM Tales WHERE mindObjectType = 'delusions' AND mindObjectTypeId = Delusions.id) AS tale_count,
-    created_at,
-    updated_at
+    (SELECT COUNT(*) FROM Tales WHERE mindObjectType = 'delusions' AND mindObjectTypeId = Delusions.id) AS tale_count
 FROM Delusions;
 
 -- Create stored procedure to get tales for any mind object
