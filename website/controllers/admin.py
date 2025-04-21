@@ -109,7 +109,12 @@ def get_objects():
     """Get all objects from a table"""
     current_app.logger.info("Objects endpoint called")
     
-    table_name = request.args.get('table')
+    table_name = request.args.get('table');
+    
+    #we want to ensure the first letter is capitalized
+    if table_name:
+        table_name = table_name.capitalize()
+      # Ensure no SQL injection via table name
     if not table_name:
         current_app.logger.error("No table name provided")
         return jsonify({'error': 'No table specified'}), 400

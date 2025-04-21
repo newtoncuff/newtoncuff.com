@@ -15,7 +15,18 @@
 
 {% block content %}
   <div class="card-container" id="cards">
-    <!-- Cards will be inserted here by JavaScript -->
+    {% for card in cards %}
+      <div class="card" data-id="{{ card.id }}">
+        <h3>{{ card.title }}</h3>
+        <p>{{ card.content }}</p>
+        {% if card.subtopic %}
+          <div class="subtopic">{{ card.subtopic }}</div>
+        {% endif %}
+        {% if card.tag %}
+          <span class="tag">{{ card.tag }}</span>
+        {% endif %}
+      </div>
+    {% endfor %}
   </div>
 
   <!-- Modal Container -->

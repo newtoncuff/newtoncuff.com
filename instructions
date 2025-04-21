@@ -6,3 +6,6 @@ stop the stack
 
 push updates to both repos (GitLab -> main and GitHub -> main
 - pushboth
+
+run in development mode
+- docker compose -p newtoncuff -f .\compose.dev.yml up -d

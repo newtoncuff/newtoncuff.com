@@ -1,0 +1,59 @@
+services:
+  website:
+    container_name: newtoncuff_website
+    build:
+      context: ./website
+      dockerfile: Dockerfile
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=app.py
+      - SQLALCHEMY_DATABASE_URI=mysql+mysqlconnector://root:Saida1986@69.48.207.125:3306/newtoncuff_com
+      - FLASK_DEBUG=1
+    restart: always
+    volumes:
+      - ./website:/app
+    ports:
+      - '8081:80'
+    networks:
+      - newtoncuff_network
+
+  api:
+    container_name: newtoncuff_api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    environment:
+      - SQLALCHEMY_DATABASE_URI=mysql+mysqlconnector://root:Saida1986@69.48.207.125:3306/newtoncuff_com
+    ports:
+      - '81:80'
+    networks:
+      - newtoncuff_network
+
+  resume:
+    build:
+      context: ./resume
+      dockerfile: Dockerfile
+    container_name: newtoncuff_resume
+    ports:
+      - "5000:80"
+    networks:
+      - newtoncuff_network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+    - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf  # Use dev config
+    networks:
+      - newtoncuff_network
+
+networks:
+  newtoncuff_network:
+    name: newtoncuff_network
+    driver: bridge

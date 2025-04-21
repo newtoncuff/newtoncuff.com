@@ -1,5 +1,5 @@
 db_username = "root"  # Replace with your MySQL username
-db_password = "Saida"  # Replace with your MySQL password
+db_password = "Saida1986"  # Replace with your MySQL password
 db_server = "69.48.207.125"  # IP address of your MySQL server
 db_port = "3306"  # Default MySQL port
 db_name = "newtoncuff_com"  # Replace with your database name

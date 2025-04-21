@@ -4,6 +4,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalBody = cardModal.querySelector('.modal-body');
     const modalClose = cardModal.querySelector('.modal-close');
     
+    // Create Add Tale button
+    const modalAdd = document.createElement('span');
+    modalAdd.classList.add('modal-add');
+    modalAdd.innerHTML = '&#43;'; // + symbol
+    modalAdd.setAttribute('title', 'Add a Tale for this item');
+    
+    // Insert Add button before the close button
+    cardModal.querySelector('.modal-content').insertBefore(modalAdd, modalClose);
+    
     // Create error message element if it doesn't exist
     let errorMessage = document.getElementById('error-message');
     if (!errorMessage) {
@@ -13,132 +22,212 @@ document.addEventListener('DOMContentLoaded', function() {
         cardsContainer.parentNode.insertBefore(errorMessage, cardsContainer.nextSibling);
     }
     
-    // Add loading indicator to card container
-    cardsContainer.innerHTML = `
-    <div style="text-align: center; padding: 40px; width: 100%;">
-        <div style="display: inline-block; width: 40px; height: 40px; border: 4px solid #f3f3f3; 
-                    border-radius: 50%; border-top: 4px solid #3498db; animation: spin 1s linear infinite;"></div>
-        <p style="margin-top: 20px; color: #666;">Loading delusions...</p>
-    </div>
+    // Add CSS for the add button
+    const style = document.createElement('style');
+    style.textContent = `
+        .modal-add {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #4CAF50;
+        }
+        
+        .modal-add:hover {
+            color: #388E3C;
+        }
+        
+        .tale-form {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .tale-form h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input[type="text"],
+        .form-group input[type="datetime-local"],
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .submit-btn:hover {
+            background-color: #388E3C;
+        }
+        
+        .modal-content.expanded {
+            height: auto;
+            max-height: 90vh;
+        }
     `;
-    
-    // Add animation style
-// Find the modal-content style section in your CSS and update it
-const style = document.createElement('style');
-style.textContent = `
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-`;
     document.head.appendChild(style);
     
-    // Function to load all cards at once
-    function loadAllCards() {
-        // Get the object type from the URL
-        const pathParts = window.location.pathname.split('/');
-        const objectType = pathParts[1]; // e.g., 'thoughts', 'passions', etc.
+    // Helper function to format date for datetime-local input
+    function formatDateForInput(date) {
+        if (!date) date = new Date();
+        return date.toISOString().slice(0, 16); // format as YYYY-MM-DDTHH:MM
+    }
+    
+    // Add Tale form creation function
+    function showTaleForm(cardData) {
+        // Expand the modal
+        cardModal.querySelector('.modal-content').classList.add('expanded');
         
-        // Construct URL for data fetch
-        const url = `/${objectType}/data`;
+        // Create form HTML
+        const formHTML = `
+            <div class="tale-form">
+                <h2>Add a Tale for "${cardData.title}"</h2>
+                <form id="add-tale-form">
+                    <input type="hidden" name="mindObjectType" value="${objectType || ''}">
+                    <input type="hidden" name="mindObjectTypeId" value="${cardData.id || ''}">
+                    <input type="hidden" name="topic" value="${cardData.title || ''}">
+                    
+                    <div class="form-group">
+                        <label for="date">Date:</label>
+                        <input type="datetime-local" id="date" name="date" value="${formatDateForInput()}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="location">Location:</label>
+                        <input type="text" id="location" name="location" placeholder="Where did this happen?">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="talltale">Your Tale:</label>
+                        <textarea id="talltale" name="talltale" placeholder="Tell your tale here..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Save Tale</button>
+                </form>
+            </div>
+        `;
         
-        fetch(url)
+        // Append form to modal body
+        modalBody.innerHTML += formHTML;
+        
+        // Setup form submission
+        document.getElementById('add-tale-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            const submitBtn = this.querySelector('.submit-btn');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.textContent = 'Saving...';
+            submitBtn.disabled = true;
+            
+            // Collect form data
+            const formData = new FormData(this);
+            
+            // Convert FormData to JSON
+            const taleData = {};
+            formData.forEach((value, key) => {
+                taleData[key] = value;
+            });
+            
+            // Get the current path for the API endpoint
+            const pathParts = window.location.pathname.split('/');
+            const objectType = pathParts[1] || ''; // e.g., 'passions', 'thoughts', etc.
+
+            // Make sure mindObjectType in the data matches the URL path
+            taleData.mindObjectType = objectType;
+
+            // Log what we're sending
+            console.log(`Submitting tale for ${objectType}:`, taleData);
+            
+            // Make the API call - use relative URL that works with current page path
+            fetch('addTale', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(taleData)
+            })
             .then(response => {
-                console.log('Response status:', response.status);
+                // Check if response is OK
                 if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.error || `Server error: ${response.status}`);
+                    });
                 }
                 return response.json();
             })
-            .then(cards => {
-                console.log('Received data:', cards);
+            .then(data => {
+                console.log('Success:', data);
                 
-                // Validate that we received an array
-                if (!Array.isArray(cards)) {
-                    throw new Error(`Invalid response format. Expected array but got: ${typeof cards}`);
+                // Show success message
+                alert('Tale added successfully!');
+                
+                // Close the modal
+                const cardModal = document.getElementById('cardModal');
+                cardModal.style.display = 'none';
+                document.body.style.overflow = ''; // Restore scrolling
+                
+                // Optional: Update UI to show the new tale was added
+                // For example, add a small indicator to the card
+                const cardId = taleData.mindObjectTypeId;
+                const cardElement = document.querySelector(`.card[data-id="${cardId}"]`);
+                if (cardElement) {
+                    // Add a "new tale" indicator if it doesn't exist
+                    if (!cardElement.querySelector('.tale-indicator')) {
+                        const indicator = document.createElement('div');
+                        indicator.className = 'tale-indicator';
+                        indicator.title = 'Has tales';
+                        indicator.innerHTML = '📖';
+                        indicator.style.position = 'absolute';
+                        indicator.style.top = '5px';
+                        indicator.style.right = '5px';
+                        indicator.style.fontSize = '16px';
+                        cardElement.style.position = 'relative';
+                        cardElement.appendChild(indicator);
+                    }
                 }
-                
-                // Clear loading indicator
-                cardsContainer.innerHTML = '';
-                
-                if (cards.length === 0) {
-                    cardsContainer.innerHTML = `
-                    <div style="text-align: center; padding: 40px; width: 100%;">
-                        <p style="color: #666;">No delusions found. Check back later for more content.</p>
-                    </div>
-                    `;
-                    return;
-                }
-                
-                // Create cards from the data
-                cards.forEach(card => {
-                    // Basic validation
-                    if (!card || typeof card !== 'object') {
-                        console.warn('Invalid card data:', card);
-                        return;
-                    }
-                    
-                    const cardElement = document.createElement('div');
-                    cardElement.className = 'card';
-                    
-                    // Get properties with fallbacks
-                    const title = card.title || 'Untitled';
-                    const content = card.content || 'No description available';
-                    
-                    // Build card HTML
-                    let cardHTML = `
-                    <h1>${title}</h1>
-                    <div class="card-separator"></div>
-                    <h2>${content}</h2>
-                    `;
-                    
-                    // Add subtopic if it exists
-                    if (card.subtopic) {
-                        cardHTML += `
-                            <div style="margin-top: 10px; font-size: 0.9em;">
-                            <strong>${card.subtopic}</strong>
-                            <p>${card.subtopicDesc || ''}</p>
-                            </div>
-                        `;
-                    }
-                    
-                    // Add tags if they exist
-                    if (card.tag) {
-                        cardHTML += `
-                            <div style="margin-top: 10px; font-size: 0.8em; color: #666;">
-                            ${card.tag.split(',').map(tag => `#${tag.trim()}`).join(' ')}
-                            </div>
-                        `;
-                    }
-                    
-                    cardElement.innerHTML = cardHTML;
-                    
-                    // Add click handler to open modal
-                    cardElement.addEventListener('click', function() {
-                        console.log(`Card clicked: ${card.id}`);
-                        openModal(card);
-                    });
-                    
-                    cardsContainer.appendChild(cardElement);
-                });
             })
             .catch(error => {
-                console.error('Error fetching delusions:', error);
+                console.error('Error:', error);
                 
                 // Show error message
-                cardsContainer.innerHTML = `
-                    <div style="text-align: center; padding: 20px; margin: 20px; background: #fff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                    <h3 style="color: #d9534f;">Error loading delusions</h3>
-                    <p style="color: #666;">Please try again later or contact support.</p>
-                    <div style="margin-top: 15px; font-family: monospace; text-align: left; background: #f8f8f8; padding: 10px; border-radius: 3px; font-size: 12px; color: #666; white-space: pre-wrap; word-break: break-all;">
-                        ${error.message}
-                    </div>
-                    <button onclick="location.reload()" style="margin-top: 15px; padding: 8px 16px; background: #5bc0de; color: white; border: none; border-radius: 4px; cursor: pointer;">
-                        Retry
-                    </button>
-                    </div>
-                `;
+                const errorMsg = error.message || 'Failed to add tale';
+                alert(`Error: ${errorMsg}`);
+            })
+            .finally(() => {
+                // Reset button state
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
             });
+        });
     }
     
     // Function to open modal with card details
@@ -196,6 +285,18 @@ style.textContent = `
         document.body.style.overflow = ''; // Restore scrolling
     });
     
+    // Show Tale form when clicking + button
+    modalAdd.addEventListener('click', function() {
+        // Get current card data from modal
+        const title = modalBody.querySelector('h1').textContent;
+        const currentId = cardModal.getAttribute('data-current-id');
+        
+        showTaleForm({
+            id: currentId,
+            title: title
+        });
+    });
+    
     // Close modal when clicking outside content area
     cardModal.addEventListener('click', function(event) {
         if (event.target === cardModal) {
@@ -212,6 +313,93 @@ style.textContent = `
         }
     });
     
-    // Load all cards immediately
-    loadAllCards();
+    setupCardInteractions();
 });
+
+// Helper function to find a card by ID from pre-rendered data
+function findCardById(id) {
+    // Find the card element with the matching ID
+    const cardElement = document.querySelector(`.card[data-id="${id}"]`);
+    
+    if (!cardElement) return null;
+    
+    // Extract data from the card element
+    return {
+        id: id,
+        title: cardElement.querySelector('h3').textContent,
+        content: cardElement.querySelector('p').textContent,
+        subtopic: cardElement.querySelector('.subtopic') ? 
+                 cardElement.querySelector('.subtopic').textContent : null,
+        tag: cardElement.querySelector('.tag') ? 
+             cardElement.querySelector('.tag').textContent : null
+    };
+}
+
+// Update showCardModal function to store the current card ID
+function showCardModal(id) {
+    const card = findCardById(id);
+    
+    if (card) {
+        const cardModal = document.getElementById('cardModal');
+        const modalBody = cardModal.querySelector('.modal-body');
+        
+        // Store the current card ID as a data attribute on the modal
+        cardModal.setAttribute('data-current-id', id);
+        
+        // Get the current object type from URL
+        const pathParts = window.location.pathname.split('/');
+        window.objectType = pathParts[1]; // e.g., 'thoughts', 'passions', etc.
+        
+        // Create modal content
+        let modalContent = `
+            <h1>${card.title || 'Untitled'}</h1>
+            <div class="card-separator" style="margin-bottom: 20px;"></div>
+            
+            <div style="margin-bottom: 15px;">
+                <strong style="color: #555; font-size: 1.1em;">Content:</strong>
+                <div style="margin-top: 5px;">${card.content}</div>
+            </div>
+        `;
+        
+        // Add subtopic if it exists
+        if (card.subtopic) {
+            modalContent += `
+                <div style="margin-bottom: 15px;">
+                    <strong style="color: #555; font-size: 1.1em;">Subtopic:</strong>
+                    <div style="margin-top: 5px;">${card.subtopic}</div>
+                </div>
+            `;
+        }
+        
+        // Add tags if they exist
+        if (card.tag) {
+            modalContent += `
+                <div style="margin-bottom: 15px;">
+                    <strong style="color: #555; font-size: 1.1em;">Tags:</strong>
+                    <div style="margin-top: 5px;">${card.tag}</div>
+                </div>
+            `;
+        }
+        
+        modalBody.innerHTML = modalContent;
+        
+        // Reset modal height if previously expanded
+        cardModal.querySelector('.modal-content').classList.remove('expanded');
+        
+        // Display the modal
+        cardModal.style.display = 'flex';
+        
+        // Prevent scrolling of the background
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function setupCardInteractions() {
+    // Handle card clicks to show modal
+    document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('click', () => {
+            // Show modal with card details
+            showCardModal(card.dataset.id);
+        });
+    });
+}

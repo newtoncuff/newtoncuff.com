@@ -32,10 +32,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add options from the fetched tables
         if (data.tables && Array.isArray(data.tables)) {
           data.tables.forEach(table => {
-            const option = document.createElement('option');
-            option.value = table;
-            option.textContent = table.charAt(0).toUpperCase() + table.slice(1);
-            objectTypeSelect.appendChild(option);
+            // Skip 'tale' or 'Tale' tables
+            if (table.toLowerCase() !== 'tale' && table.toLowerCase() !== 'tales') {
+              const option = document.createElement('option');
+              option.value = table;
+              option.textContent = table.charAt(0).toUpperCase() + table.slice(1);
+              objectTypeSelect.appendChild(option);
+            }
           });
         } else {
           // Add some placeholder options if data couldn't be fetched

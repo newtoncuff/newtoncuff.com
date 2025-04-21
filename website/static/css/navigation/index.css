@@ -101,6 +101,7 @@ html, body {
   animation: modalFadeIn 0.3s ease;
   padding: 20px;
   border: 3px solid #d2b356; /* Added gold border */
+  transition: height 0.3s ease;
 }
 
 .modal-close {
@@ -115,6 +116,32 @@ html, body {
 
 .modal-close:hover {
   color: #000;
+}
+
+.modal-add {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #4CAF50;
+}
+
+.modal-add:hover {
+  color: #388E3C;
+}
+
+.modal-content.expanded {
+  height: auto;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.tale-form {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
 }
 
 @keyframes modalFadeIn {
