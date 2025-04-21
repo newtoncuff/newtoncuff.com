@@ -9,8 +9,8 @@ USE newtoncuff_com;
 DROP TABLE IF EXISTS Tales;
 DROP TABLE IF EXISTS Thoughts;
 DROP TABLE IF EXISTS Passions;
-DROP TABLE IF EXISTS Projects;
-DROP TABLE IF EXISTS Skills;
+DROP TABLE IF EXISTS Delusions;
+DROP TABLE IF EXISTS Interests;
 DROP TABLE IF EXISTS Users;
 
 -- Create Users table
@@ -39,6 +39,19 @@ CREATE TABLE Passions (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Create Delusions table
+CREATE TABLE Delusions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    topic VARCHAR(100) NOT NULL,
+    topicDesc TEXT,
+    subtopic VARCHAR(100),
+    subTopicDesc TEXT,
+    tag VARCHAR(255),
+    hasTales BIT(1) NOT NULL DEFAULT 0 COMMENT 'Indicates whether this delusion has associated tales',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Create Thoughts table
 CREATE TABLE Thoughts (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -52,34 +65,15 @@ CREATE TABLE Thoughts (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Create Skills table
-CREATE TABLE Skills (
+-- Create Interests table
+CREATE TABLE Interests (
     id INT AUTO_INCREMENT PRIMARY KEY,
     topic VARCHAR(100) NOT NULL,
     topicDesc TEXT,
     subtopic VARCHAR(100),
     subTopicDesc TEXT,
     tag VARCHAR(255),
-    proficiency INT,
-    years_experience DECIMAL(4,1),
-    hasTales BIT(1) NOT NULL DEFAULT 0 COMMENT 'Indicates whether this skill has associated tales',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Create Projects table
-CREATE TABLE Projects (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    topic VARCHAR(100) NOT NULL,
-    topicDesc TEXT,
-    subtopic VARCHAR(100),
-    subTopicDesc TEXT,
-    tag VARCHAR(255),
-    start_date DATE,
-    end_date DATE,
-    github_url VARCHAR(255),
-    demo_url VARCHAR(255),
-    hasTales BIT(1) NOT NULL DEFAULT 0 COMMENT 'Indicates whether this project has associated tales',
+    hasTales BIT(1) NOT NULL DEFAULT 0 COMMENT 'Indicates whether this interest has associated tales',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -114,10 +108,10 @@ BEGIN
         UPDATE Passions SET hasTales = 1 WHERE id = NEW.mindObjectTypeId;
     ELSEIF NEW.mindObjectType = 'thoughts' THEN
         UPDATE Thoughts SET hasTales = 1 WHERE id = NEW.mindObjectTypeId;
-    ELSEIF NEW.mindObjectType = 'skills' THEN
-        UPDATE Skills SET hasTales = 1 WHERE id = NEW.mindObjectTypeId;
-    ELSEIF NEW.mindObjectType = 'projects' THEN
-        UPDATE Projects SET hasTales = 1 WHERE id = NEW.mindObjectTypeId;
+    ELSEIF NEW.mindObjectType = 'interests' THEN
+        UPDATE Interests SET hasTales = 1 WHERE id = NEW.mindObjectTypeId;
+    ELSEIF NEW.mindObjectType = 'delusions' THEN
+        UPDATE Delusions SET hasTales = 1 WHERE id = NEW.mindObjectTypeId;
     END IF;
 END$$
 
@@ -133,13 +127,13 @@ BEGIN
         IF (SELECT COUNT(*) FROM Tales WHERE mindObjectType = 'thoughts' AND mindObjectTypeId = OLD.mindObjectTypeId) = 0 THEN
             UPDATE Thoughts SET hasTales = 0 WHERE id = OLD.mindObjectTypeId;
         END IF;
-    ELSEIF OLD.mindObjectType = 'skills' THEN
-        IF (SELECT COUNT(*) FROM Tales WHERE mindObjectType = 'skills' AND mindObjectTypeId = OLD.mindObjectTypeId) = 0 THEN
-            UPDATE Skills SET hasTales = 0 WHERE id = OLD.mindObjectTypeId;
+    ELSEIF OLD.mindObjectType = 'interests' THEN
+        IF (SELECT COUNT(*) FROM Tales WHERE mindObjectType = 'interests' AND mindObjectTypeId = OLD.mindObjectTypeId) = 0 THEN
+            UPDATE Interests SET hasTales = 0 WHERE id = OLD.mindObjectTypeId;
         END IF;
-    ELSEIF OLD.mindObjectType = 'projects' THEN
-        IF (SELECT COUNT(*) FROM Tales WHERE mindObjectType = 'projects' AND mindObjectTypeId = OLD.mindObjectTypeId) = 0 THEN
-            UPDATE Projects SET hasTales = 0 WHERE id = OLD.mindObjectTypeId;
+    ELSEIF OLD.mindObjectType = 'delusions' THEN
+        IF (SELECT COUNT(*) FROM Tales WHERE mindObjectType = 'delusions' AND mindObjectTypeId = OLD.mindObjectTypeId) = 0 THEN
+            UPDATE Delusions SET hasTales = 0 WHERE id = OLD.mindObjectTypeId;
         END IF;
     END IF;
 END$$
@@ -181,7 +175,7 @@ FROM Thoughts
 UNION ALL
 
 SELECT 
-    'skills' AS object_type,
+    'interests' AS object_type,
     id,
     topic,
     topicDesc,
@@ -189,15 +183,15 @@ SELECT
     subTopicDesc,
     tag,
     hasTales,
-    (SELECT COUNT(*) FROM Tales WHERE mindObjectType = 'skills' AND mindObjectTypeId = Skills.id) AS tale_count,
+    (SELECT COUNT(*) FROM Tales WHERE mindObjectType = 'interests' AND mindObjectTypeId = Interests.id) AS tale_count,
     created_at,
     updated_at
-FROM Skills
+FROM Interests
 
 UNION ALL
 
 SELECT 
-    'projects' AS object_type,
+    'delusions' AS object_type,
     id,
     topic,
     topicDesc,
@@ -205,10 +199,10 @@ SELECT
     subTopicDesc,
     tag,
     hasTales,
-    (SELECT COUNT(*) FROM Tales WHERE mindObjectType = 'projects' AND mindObjectTypeId = Projects.id) AS tale_count,
+    (SELECT COUNT(*) FROM Tales WHERE mindObjectType = 'delusions' AND mindObjectTypeId = Delusions.id) AS tale_count,
     created_at,
     updated_at
-FROM Projects;
+FROM Delusions;
 
 -- Create stored procedure to get tales for any mind object
 DELIMITER $$
@@ -269,7 +263,7 @@ BEGIN
     UNION ALL
     
     SELECT 
-        'skills' AS object_type,
+        'interests' AS object_type,
         id,
         topic,
         topicDesc,
@@ -277,18 +271,18 @@ BEGIN
         subTopicDesc,
         tag,
         hasTales
-    FROM Skills
+    FROM Interests
     WHERE 
         topic LIKE CONCAT('%', p_search_term, '%') OR
         topicDesc LIKE CONCAT('%', p_search_term, '%') OR
         subtopic LIKE CONCAT('%', p_search_term, '%') OR
         subTopicDesc LIKE CONCAT('%', p_search_term, '%') OR
         tag LIKE CONCAT('%', p_search_term, '%')
-    
+
     UNION ALL
-    
+
     SELECT 
-        'projects' AS object_type,
+        'delusions' AS object_type,
         id,
         topic,
         topicDesc,
@@ -296,13 +290,13 @@ BEGIN
         subTopicDesc,
         tag,
         hasTales
-    FROM Projects
+    FROM Delusions
     WHERE 
         topic LIKE CONCAT('%', p_search_term, '%') OR
         topicDesc LIKE CONCAT('%', p_search_term, '%') OR
         subtopic LIKE CONCAT('%', p_search_term, '%') OR
         subTopicDesc LIKE CONCAT('%', p_search_term, '%') OR
-        tag LIKE CONCAT('%', p_search_term, '%');
+        tag LIKE CONCAT('%', p_search_term, '%'); 
 END$$
 
 DELIMITER ;
