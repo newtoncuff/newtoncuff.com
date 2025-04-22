@@ -33,7 +33,8 @@ def index(object_type):
             "content": card["topicDesc"],
             "subtopic": card["subtopic"],
             "subtopicDesc": card["subTopicDesc"],
-            "tag": card["tag"]
+            "tag": card["tag"],
+            "hasTale": card.get("hasTales", False),  # Assuming this is part of the object model
         })
     
     # Pass both the data and the object type

@@ -28,6 +28,7 @@ services:
       - '81:80'
     networks:
       - newtoncuff_network
+    restart: always
 
   resume:
     build:
@@ -38,6 +39,7 @@ services:
       - "5000:80"
     networks:
       - newtoncuff_network
+    restart: always
 
   nginx:
     build:

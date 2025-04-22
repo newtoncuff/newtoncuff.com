@@ -25,6 +25,11 @@
         {% if card.tag %}
           <span class="tag">{{ card.tag }}</span>
         {% endif %}
+        {% if card.hasTale %}
+          <div class="icon-container">
+            <i class="fas fa-book-open" title="This mind object has tales"></i>
+          </div>
+        {% endif %}
       </div>
     {% endfor %}
   </div>
