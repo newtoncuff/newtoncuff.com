@@ -34,9 +34,11 @@ def index(object_type):
             "subtopic": card["subtopic"],
             "subtopicDesc": card["subTopicDesc"],
             "tag": card["tag"],
-            "hasTale": card.get("hasTales", False),  # Assuming this is part of the object model
+            "hasTales": card["hasTales"],  # Assuming this is part of the object model
         })
     
+
+
     # Pass both the data and the object type
     return render_template('navigation/index.html', 
                           cards=formatted_cards,

@@ -20,6 +20,8 @@ class MindObject(db.Model):
     
     # Tags for categorization
     tag = db.Column(db.String(250), nullable=True)
+
+    hasTales = db.Column(db.Boolean, default=False)  # Indicates if the object has tales associated with it
     
     # Common methods for all mind objects
     def __repr__(self):
@@ -34,7 +36,8 @@ class MindObject(db.Model):
             "topicDesc": self.topicDesc,
             "subtopic": self.subtopic or "",
             "subTopicDesc": self.subTopicDesc or "",
-            "tag": self.tag or ""
+            "tag": self.tag or "",
+            "hasTales": "true" if self.hasTales else "false"  # Convert to "true" or "false" string
         }
     
     @classmethod

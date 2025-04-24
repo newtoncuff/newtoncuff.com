@@ -25,10 +25,13 @@
         {% if card.tag %}
           <span class="tag">{{ card.tag }}</span>
         {% endif %}
-        {% if card.hasTale %}
-          <div class="icon-container">
-            <i class="fas fa-book-open" title="This mind object has tales"></i>
-          </div>
+        {% if card.hasTales %}
+            <div class="tale-indicator" title="Has tales" style="position: absolute; top: 5px; right: 5px; font-size: 24px;">📖</div>
+            <style>
+            .card {
+              position: relative;
+            }
+            </style>
         {% endif %}
       </div>
     {% endfor %}

@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         indicator.style.position = 'absolute';
                         indicator.style.top = '5px';
                         indicator.style.right = '5px';
-                        indicator.style.fontSize = '16px';
+                        indicator.style.fontSize = '24px';
                         cardElement.style.position = 'relative';
                         cardElement.appendChild(indicator);
                     }
@@ -229,56 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-    
-    // Function to open modal with card details
-    function openModal(card) {
-        // Populate modal content
-        let modalContent = `
-            <h1>${card.title || 'Untitled'}</h1>
-            <div class="card-separator" style="margin-bottom: 20px;"></div>
-        `;
-        
-        // Add all card properties to the modal
-        for (const [key, value] of Object.entries(card)) {
-            // Skip certain fields or null/undefined values
-            if (key === 'id' || value === null || value === undefined) continue;
-            
-            // Format the property name (convert snake_case to Title Case)
-            const formattedKey = key
-                .replace(/_/g, ' ')
-                .replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
-            
-            // Format the value based on its type
-            let formattedValue = value;
-            
-            // Handle special cases
-            if (key === 'tag' && typeof value === 'string') {
-                formattedValue = value.split(',').map(tag => `#${tag.trim()}`).join(' ');
-            } else if (typeof value === 'boolean') {
-                formattedValue = value ? 'Yes' : 'No';
-            } else if (typeof value === 'object') {
-                formattedValue = JSON.stringify(value);
-            }
-            
-            modalContent += `
-                <div style="margin-bottom: 15px;">
-                    <strong style="color: #555; font-size: 1.1em;">${formattedKey}:</strong>
-                    <div style="margin-top: 5px;">${formattedValue}</div>
-                </div>
-            `;
-        }
-        
-        modalBody.innerHTML = modalContent;
-        
-        // Display the modal
-        cardModal.style.display = 'flex';
-        
-        // Prevent scrolling of the background
-        document.body.style.overflow = 'hidden';
-    }
-    
-    // Event listeners for modal
-    
+
     // Close modal when clicking X button
     modalClose.addEventListener('click', function() {
         cardModal.style.display = 'none';
@@ -331,7 +282,8 @@ function findCardById(id) {
         subtopic: cardElement.querySelector('.subtopic') ? 
                  cardElement.querySelector('.subtopic').textContent : null,
         tag: cardElement.querySelector('.tag') ? 
-             cardElement.querySelector('.tag').textContent : null
+             cardElement.querySelector('.tag').textContent : null,
+        hasTales: cardElement.querySelector('.tale-indicator') ? true : false
     };
 }
 
@@ -378,6 +330,16 @@ function showCardModal(id) {
                     <strong style="color: #555; font-size: 1.1em;">Tags:</strong>
                     <div style="margin-top: 5px;">${card.tag}</div>
                 </div>
+            `;
+        }
+
+        // Add tales if they exist
+        if (card.hasTales) {
+            modalContent += `
+            <div style="margin-bottom: 15px;">
+                <strong style="color: #555; font-size: 1.1em;">Tales:</strong>
+                <div style="margin-top: 5px;">Boy have we got some tales for you.</div>
+            </div>
             `;
         }
         
