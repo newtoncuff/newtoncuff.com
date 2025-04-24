@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <form id="add-tale-form">
                     <input type="hidden" name="mindObjectType" value="${objectType || ''}">
                     <input type="hidden" name="mindObjectTypeId" value="${cardData.id || ''}">
-                    <input type="hidden" name="topic" value="${cardData.title || ''}">
+                    <input type="hidden" name="topicTitle" value="${cardData.title || ''}">
                     
                     <div class="form-group">
                         <label for="date">Date:</label>
