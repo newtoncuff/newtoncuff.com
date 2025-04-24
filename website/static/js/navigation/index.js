@@ -334,7 +334,7 @@ function showCardModal(id) {
         }
 
         // Add tales if they exist
-        if (card.hasTales) {
+        if (card.hasTales === true) {
             modalContent += `
             <div style="margin-bottom: 15px;">
                 <strong style="color: #555; font-size: 1.1em;">Tales:</strong>
