@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block css %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/navigation/styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/navigation/index.css') }}">
+{% endblock %}
+
+{% block titleHeader %}
+  {{ titleHeader }}
+{% endblock %}
+
+{% block titleSubHeader %}
+  {{ titleSubHeader }}
+{% endblock %}
+
+{% block content %}
+  <div class="card-container" id="cards">
+    {% for card in cards %}
+      <div class="card" data-id="{{ card.id }}">
+        <p class="topicTitle"><strong>{{ card.topicTitle }}</strong></p>
+        <p class="date"><strong>Date:</strong> {{ card.date }}</p>
+        <p class="location"><strong>Location:</strong> {{ card.location }}</p>
+        {% if card.talltale %}
+          <div class="talltale" style="display: none;"><strong>Tall Tale:</strong> {{ card.talltale }}</div>
+        {% endif %}
+        {% if card.userDefined1 %}
+          <div class="user-defined">User Defined 1: {{ card.userDefined1 }}</div>
+        {% endif %}
+        {% if card.userDefined2 %}
+          <div class="user-defined">User Defined 2: {{ card.userDefined2 }}</div>
+        {% endif %}
+        {% if card.userDefined3 %}
+          <div class="user-defined">User Defined 3: {{ card.userDefined3 }}</div>
+        {% endif %}
+        {% if card.userDefined4 %}
+          <div class="user-defined">User Defined 4: {{ card.userDefined4 }}</div>
+        {% endif %}
+        {% if card.userDefined5 %}
+          <div class="user-defined">User Defined 5: {{ card.userDefined5 }}</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Modal Container -->
+  <div class="modal-overlay" id="cardModal">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <div class="modal-body">
+        <!-- Modal content will be inserted here by JavaScript -->
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js %}
+  <script>
+    // Define a global variable with the URL that JavaScript can access
+    window.mindObjectDataUrl = "{{ titleHeader }}";
+  </script>
+  <script src="{{ url_for('static', filename='js/navigation/taleIndex.js') }}"></script>
+{% endblock %}

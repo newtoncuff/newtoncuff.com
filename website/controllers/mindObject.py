@@ -12,6 +12,11 @@ OBJECT_TYPES = MIND_OBJECT_TYPES
 @mind_object_controller.route('/<object_type>/')
 def index(object_type):
     """Render the index page for the specified object type"""
+
+    # expecting the object_type to be in lowercase
+    # Convert to lowercase for consistency
+    object_type = object_type.lower()
+
     if object_type not in OBJECT_TYPES:
         return "Invalid object type", 404
     
@@ -35,6 +40,7 @@ def index(object_type):
             "subtopicDesc": card["subTopicDesc"],
             "tag": card["tag"],
             "hasTales": card["hasTales"],  # Assuming this is part of the object model
+            "mindObjectType": object_type,
         })
     
 

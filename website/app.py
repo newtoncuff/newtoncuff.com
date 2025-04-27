@@ -33,6 +33,16 @@ def create_app():
 # Create the app by calling create_app()
 app = create_app()
 
+import base64
+
+# Register custom filters
+@app.template_filter('b64encode')
+def b64encode_filter(data):
+    """Encode data as base64"""
+    if isinstance(data, str):
+        return base64.b64encode(data.encode()).decode()
+    return base64.b64encode(data).decode()
+
 # Run the application only if this file is executed directly
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")

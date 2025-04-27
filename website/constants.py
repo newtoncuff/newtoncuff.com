@@ -8,12 +8,14 @@ from models.thought import Thought
 from models.passion import Passion
 from models.delusion import Delusion
 from models.interest import Interest
+from models.tale import Tale  # Assuming Tale is a model class
 
 MIND_OBJECT_TYPES = {
     'thoughts': Thought,
     'passions': Passion,
     'delusions': Delusion,
-    'interests': Interest
+    'interests': Interest,
+    'tale': Tale,  # Assuming Tale is a model class
 }
 
 # Get just the keys as a list for validation
@@ -36,5 +38,9 @@ TITLE_CONFIG = {
     'interests': {
         'header': "Interests",
         'subheader': "Topics and subjects that catch my attention."
+    },
+        'tales': {
+        'header': "Tales",
+        'subheader': "Tales, some short some tall."
     }
 }

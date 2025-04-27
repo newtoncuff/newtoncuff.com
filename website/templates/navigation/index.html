@@ -25,11 +25,20 @@
         {% if card.tag %}
           <span class="tag">{{ card.tag }}</span>
         {% endif %}
-        {% if card.hasTales == 1 %}
-            <div class="tale-indicator" title="Has tales" style="position: absolute; top: 5px; right: 5px; font-size: 24px;">📖</div>
+        {% if card.hasTales == 'true' %}
+            <a href="{{ url_for('tale.index', topicTitle=card.title, data=(card.mindObjectType + '|' + card.title + '|' + card.id|string)|b64encode) }}" 
+               class="tale-indicator" 
+               title="Has tales" 
+               style="position: absolute; top: 5px; right: 5px; font-size: 24px; cursor: pointer; text-decoration: none;"
+               onclick="event.stopPropagation();">
+              📖
+            </a>
             <style>
             .card {
               position: relative;
+            }
+            .tale-indicator {
+              z-index: 10;
             }
             </style>
         {% endif %}
