@@ -22,7 +22,6 @@
 </div>
 
 <div class="col-2-3">
-
     <!--Icon Block-->
     <div class="col-2 icon-block icon-top wow fadeInUp">
         <!--Icon-->
@@ -32,7 +31,7 @@
         <!--Icon Block Description-->
         <div class="icon-block-description">
             <h4><a href="{{ url_for('mind_object.index', object_type='Thoughts') }}">Thoughts</a></h4>
-            <p>Try and keep up with the random thoughts that invade my head and lead to the randomness that ensues</p>
+            <p>Try and keep up with the randomness of my thoughts</p>
         </div>
     </div>
     <!--End of Icon Block-->
@@ -46,11 +45,12 @@
         <!--Icon Block Description-->
         <div class="icon-block-description">
             <h4><a href="{{ url_for('mind_object.index', object_type='Passions') }}">Passions</a></h4>
-            <p>I treasures these more than words can describe. They are my joy, frustration and provide motivation</p>
+            <p>Things I'm most passionate about and enjoy doing</p>
         </div>
     </div>
     <!--End of Icon Block-->
-
+</div>
+<div class="col-2-3">
     <!--Icon Block-->
     <div class="col-2 icon-block icon-top wow fadeInUp">
         <!--Icon-->
@@ -60,7 +60,7 @@
         <!--Icon Block Description-->
         <div class="icon-block-description">
             <h4><a href="{{ url_for('mind_object.index', object_type='Delusions') }}">Delusions</a></h4>
-            <p>These are my ramblings manifested into words, my theories and ideas. Here you will find everything else</p>
+            <p>Wild ideas and concepts that may or may not be true</p>
         </div>
     </div>
     <!--End of Icon Block-->
@@ -74,25 +74,12 @@
         <!--Icon Block Description-->
         <div class="icon-block-description">
             <h4><a href="{{ url_for('mind_object.index', object_type='Interests') }}">Interests</a></h4>
-            <p>My interests have been described as seasonal so follow me as i grow, learn, explore, experiment and discover</p>
+            <p>Topics and subjects that catch my attention sometimes</p>
         </div>
     </div>
     <!--End of Icon Block-->
-
-    <!--Icon Block-->
-    <div class="col-2 icon-block icon-top wow fadeInUp">
-        <!--Icon-->
-        <div class="icon">
-            <i class="fa fa-book fa-2x"></i>
-        </div>
-        <!--Icon Block Description-->
-        <div class="icon-block-description">
-            <h4><a >Stories</a></h4>
-            <p>Short reads im sure you will fine either interesting or intriguing</p>
-        </div>
-    </div>
-    <!--End of Icon Block-->
-
+</div>
+<div class="col-2-3">
     <!--Icon Block-->
     <div class="col-2 icon-block icon-top wow fadeInUp">
         <!--Icon-->
@@ -101,22 +88,8 @@
         </div>
         <!--Icon Block Description-->
         <div class="icon-block-description">
-            <h4><a >Funnies</a></h4>
-            <p>Just so you know, before you leave you will laugh, and you will like it</p>
-        </div>
-    </div>
-    <!--End of Icon Block-->
-
-    <!--Icon Block-->
-    <div class="col-2 icon-block icon-top wow fadeInUp">
-        <!--Icon-->
-        <div class="icon">
-            <i class="fa fa-futbol-o fa-2x"></i>
-        </div>
-        <!--Icon Block Description-->
-        <div class="icon-block-description">
-            <h4><a >Hobbies</a></h4>
-            <p>Yearly and seasonal tracker about what im up to, follow along if your bored</p>
+            <h4><a href="{{ url_for('mind_object.index', object_type='Funnies') }}">Funnies</a></h4>
+            <p>Just a little help to get us all through the day</p>
         </div>
     </div>
     <!--End of Icon Block-->
@@ -129,11 +102,10 @@
         </div>
         <!--Icon Block Description-->
         <div class="icon-block-description">
-            <h4><a >Projects</a></h4>
-            <p>Just some stuff im working on in some capacity or another</p>
+            <h4><a href="{{ url_for('mind_object.index', object_type='Projects') }}">Projects</a></h4>
+            <p>I deem these to be a worthy investment of my time</p>
         </div>
     </div>
     <!--End of Icon Block-->
-
 </div>
 {% endblock %}

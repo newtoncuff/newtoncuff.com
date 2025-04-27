@@ -8,6 +8,8 @@ from models.thought import Thought
 from models.passion import Passion
 from models.delusion import Delusion
 from models.interest import Interest
+from models.funny import Funny
+from models.project import Project  # Assuming Projects is a model class
 from models.tale import Tale  # Assuming Tale is a model class
 
 MIND_OBJECT_TYPES = {
@@ -16,6 +18,8 @@ MIND_OBJECT_TYPES = {
     'delusions': Delusion,
     'interests': Interest,
     'tale': Tale,  # Assuming Tale is a model class
+    'funnies': Funny,
+    'projects': Project,  # Assuming projects are similar to passions
 }
 
 # Get just the keys as a list for validation
@@ -25,22 +29,30 @@ VALID_MIND_OBJECT_TYPES = list(MIND_OBJECT_TYPES.keys())
 TITLE_CONFIG = {
     'thoughts': {
         'header': "Thoughts",
-        'subheader': "Try and keep up with the random thoughts that invade my head and lead to the randomness that ensues."
+        'subheader': "Try and keep up with the randomness of my thoughts."
     },
     'passions': {
         'header': "Passions",
-        'subheader': "Things I'm passionate about and enjoy doing."
+        'subheader': "Things I'm most passionate about and enjoy doing."
     },
     'delusions': {
         'header': "Delusions",
-        'subheader': "Wild ideas and concepts that may or may not be realistic."
+        'subheader': "Wild ideas and concepts that may or may not be true."
     },
     'interests': {
         'header': "Interests",
-        'subheader': "Topics and subjects that catch my attention."
+        'subheader': "Topics and subjects that catch my attention sometimes."
     },
-        'tales': {
+    'funnies': {
+        'header': "Funnies",
+        'subheader': "Just a little help to get us all through the day."
+    },
+    'projects': {
+        'header': "Projects",
+        'subheader': "I deem these to be a worthy investment of my time."
+    },
+    'tales': {
         'header': "Tales",
-        'subheader': "Tales, some short some tall."
+        'subheader': "Tales tales, some short some tall some really tall."
     }
 }

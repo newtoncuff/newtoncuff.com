@@ -43,22 +43,32 @@ class MindObject(db.Model):
     @classmethod
     def get_all(cls):
         """Get all objects of this type"""
+        db.session.expire_all()
         return cls.query.all()
     
     @classmethod
     def get_by_id(cls, id):
-        """Get an object by ID"""
-        return cls.query.get(id)
+        """Get a tale by ID"""
+        db.session.expire_all()
+        result = cls.query.get(id)
+        if result:
+            # Explicitly refresh this object from the database
+            db.session.refresh(result)
+        return result
     
     @classmethod
     def get_by_topic(cls, topic):
         """Get objects filtered by topic"""
-        return cls.query.filter_by(topic=topic).all()
+        db.session.expire_all()
+        query = cls.query.filter_by(topic=topic)
+        # Force a fresh execution
+        return query.all()
     
     @classmethod
     def search(cls, search_term):
+        db.session.expire_all()
         """Search for objects by topic or description"""
-        return cls.query.filter(
+        return cls.query.all().filter(
             db.or_(
                 cls.topic.ilike(f"%{search_term}%"),
                 cls.topicDesc.ilike(f"%{search_term}%"),

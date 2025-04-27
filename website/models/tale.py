@@ -54,36 +54,54 @@ class Tale(db.Model):
     @classmethod
     def get_all(cls):
         """Get all tales"""
+        db.session.expire_all()
         return cls.query.all()
     
     @classmethod
     def get_by_id(cls, id):
         """Get a tale by ID"""
-        return cls.query.get(id)
+        db.session.expire_all()
+        result = cls.query.get(id)
+        if result:
+            # Explicitly refresh this object from the database
+            db.session.refresh(result)
+        return result
     
     @classmethod
     def get_by_mindObjectTypeId(cls, mindObjectTypeId):
-        """Get a tale by ID"""
-        return cls.query.filter_by(mindObjectTypeId=mindObjectTypeId).all()
+        """Get all tales with the given mindObjectTypeId"""
+        db.session.expire_all()
+        # Use filter_by without the all() first
+        query = cls.query.filter_by(mindObjectTypeId=mindObjectTypeId)
+        # Force a fresh execution
+        return query.all()
     
     @classmethod
     def get_by_object(cls, object_type, object_id):
         """Get all tales for a specific mind object"""
-        return cls.query.filter_by(
+        db.session.expire_all()
+        # Chain the methods correctly
+        query = cls.query.filter_by(
             mindObjectType=object_type,
             mindObjectTypeId=object_id
-        ).order_by(cls.date.desc()).all()
+        ).order_by(cls.date.desc())
+        # Force a fresh execution
+        return query.all()
     
     @classmethod
     def search(cls, search_term):
         """Search for tales by content"""
-        return cls.query.filter(
+        db.session.expire_all()
+        # Chain the methods correctly
+        query = cls.query.filter(
             db.or_(
                 cls.topicTitle.ilike(f"%{search_term}%"),
                 cls.location.ilike(f"%{search_term}%"),
                 cls.talltale.ilike(f"%{search_term}%")
             )
-        ).all()
+        )
+        # Force a fresh execution
+        return query.all()
     
     @classmethod
     def create(cls, mind_object_type, mind_object_id, talltale, **kwargs):
