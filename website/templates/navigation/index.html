@@ -23,7 +23,13 @@
           <div class="subtopic">{{ card.subtopic }}</div>
         {% endif %}
         {% if card.tag %}
-          <span class="tag">{{ card.tag }}</span>
+            <p>
+              <strong><i class="tag-icon">🏷️</i>Tags</strong>
+            </p>
+            <hr style="width: 100%; margin: 10px auto; border: 1px solid #ccc;">
+            <span class="tag">
+              {{ card.tag }}
+            </span>
         {% endif %}
         {% if card.hasTales == 'true' %}
             <a href="{{ url_for('tale.index', topicTitle=card.title, data=(card.mindObjectType + '|' + card.title + '|' + card.id|string)|b64encode) }}" 
