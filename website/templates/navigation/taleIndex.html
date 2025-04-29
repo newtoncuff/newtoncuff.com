@@ -17,9 +17,8 @@
   <div class="card-container" id="cards">
     {% for card in cards %}
       <div class="card" data-id="{{ card.id }}">
-        <p class="topicTitle"><strong>{{ card.topicTitle }}</strong></p>
+        <p class="topicTitle"><strong>{{ card.topicTitle }}</strong> - {{ card.location }}</p>
         <p class="date"><strong>Date:</strong> {{ card.date }}</p>
-        <p class="location"><strong>Location:</strong> {{ card.location }}</p>
         {% if card.talltale %}
           <div class="talltale" style="display: none;"><strong>Tall Tale:</strong> {{ card.talltale }}</div>
         {% endif %}
