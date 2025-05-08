@@ -33,17 +33,17 @@ services:
     depends_on:
       - nginx
 
-  resume:
-    build:
-      context: ./resume
-      dockerfile: Dockerfile
-    container_name: newtoncuff_resume
-    ports:
-      - "5000:80"
-    networks:
-      - newtoncuff_network
-    depends_on:
-      - nginx
+  # resume:
+  #   build:
+  #     context: ./resume
+  #     dockerfile: Dockerfile
+  #   container_name: newtoncuff_resume
+  #   ports:
+  #     - "5000:80"
+  #   networks:
+  #     - newtoncuff_network
+  #   depends_on:
+  #     - nginx
 
   redis:
     container_name: newtoncuff_redis

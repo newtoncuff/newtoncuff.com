@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
+
     // Get the modal elements
     const aboutLink = document.getElementById('about-me-link');
     const aboutModal = document.getElementById('about-modal');
     const modalClose = aboutModal.querySelector('.modal-close');
-    
+
     // Open modal when clicking the About Me link
     aboutLink.addEventListener('click', function(e) {
         e.preventDefault();

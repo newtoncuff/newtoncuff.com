@@ -1,0 +1,591 @@
+/* Base styles and reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    line-height: 1.4; /* Reduced from 1.6 */
+    color: #333;
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+
+header {
+    background: linear-gradient(to right, #2c3e50, #4b6cb7);
+    color: white;
+    padding: 30px 40px;
+}
+
+h1 {
+    margin: 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.resume-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.resume-section {
+    background: #ffffff;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #35424a;
+}
+
+.header-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.header-left {
+    flex: 1;
+    min-width: 300px;
+}
+
+.header-left h1 {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.header-left h2 {
+    font-size: 1.4rem;
+    font-weight: 400;
+    opacity: 0.9;
+    color: white; /* This changes the text color to white */
+}
+
+.header-right {
+    flex: 1;
+    min-width: 300px;
+    margin-top: 15px;
+}
+
+.contact-info {
+    list-style: none;
+}
+
+.contact-info li {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.contact-info i {
+    width: 25px;
+    margin-right: 10px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Section styling */
+.section-title {
+    margin-bottom: 12px; /* Reduced from 20px */
+    position: relative;
+}
+
+.section-title h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #2c3e50;
+    display: inline-block;
+}
+
+.title-underline {
+    height: 3px;
+    width: 60px;
+    background-color: #4b6cb7;
+    margin-top: 5px;
+}
+
+/* Professional summary */
+.professional-summary {
+    padding: 20px 40px; /* Reduced from 30px top/bottom */
+    border-bottom: 1px solid #eee;
+}
+
+.professional-summary p {
+    text-align: justify;
+}
+
+/* Two-column layout */
+.two-column-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start; /* Align items to the top */
+}
+
+.main-column {
+    flex: 2;
+    min-width: 300px;
+    padding: 20px 40px; /* Reduced from 30px top/bottom */
+}
+
+.sidebar {
+    flex: 1;
+    min-width: 250px;
+    padding: 20px 30px; /* Reduced from 30px top/bottom */
+    background-color: transparent; 
+    align-self: flex-start; /* This ensures the sidebar doesn't stretch */
+    height: auto; /* Let height be determined by content */
+}
+
+/* Experience section */
+.experience {
+    margin-bottom: 25px; /* Reduced from 40px */
+}
+
+.job {
+    margin-bottom: 20px; /* Reduced from 30px */
+}
+
+.job-header {
+    margin-bottom: 12px;
+}
+
+.job-header h4 {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    margin-bottom: 3px;
+}
+
+.company-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3px;
+}
+
+.company {
+    font-weight: 500;
+}
+
+.location {
+    color: #666;
+}
+
+.job-date {
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+}
+
+.job-description {
+    padding-left: 20px;
+}
+
+.job-description li {
+    margin-bottom: 3px; /* Reduced from 5px */
+    text-align: justify;
+}
+
+/* Education section */
+.education {
+    margin-bottom: 25px; /* Reduced from 40px */
+}
+
+.education-item {
+    margin-bottom: 10px; /* Reduced from 15px */
+}
+
+.degree {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 3px;
+}
+
+.university {
+    font-weight: 500;
+    margin-bottom: 3px;
+}
+
+.education-date, .location {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Skills section */
+.skills-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Reduced from 20px */
+}
+
+.skill-category h4 {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    margin-bottom: 5px; /* Reduced from 8px */
+    font-weight: 500;
+    margin-bottom: 5px; /* Reduced from 8px */
+    font-weight: 500;
+}
+
+.skill-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.skill-list li {
+    background-color: #e9eef5;
+    border: 1px solid #d1dae8;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+/* Additional info */
+.additional-info {
+    margin-bottom: 25px; /* Reduced from 40px */
+}
+
+.additional-info p {
+    text-align: justify;
+}
+
+/* Media queries for responsiveness */
+@media screen and (max-width: 768px) {
+    .header-main {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .header-right {
+        margin-top: 20px;
+    }
+    
+    .two-column-section {
+        flex-direction: column;
+    }
+    
+    .main-column {
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background: #35424a;
+    color: #ffffff;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Reduce space in hobby cards */
+.hobbies {
+    gap: 12px; /* Reduced from 20px */
+}
+
+.hobby {
+    padding: 10px; /* Reduced from 15px */
+}
+
+.hobby h4 {
+    margin-bottom: 4px; /* Reduced from 8px */
+}
+
+/* Add this at the end of your CSS file */
+
+/* Print-specific styles */
+@media print {
+    body {
+        padding: 0;
+        background-color: white;
+        font-size: 12px;
+        line-height: 1.3;
+    }
+    
+    .resume-container {
+        max-width: 100%;
+        box-shadow: none;
+        border-radius: 0;
+        margin: 0;
+        padding: 0;
+    }
+    
+    header {
+        padding: 15px 25px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .header-left h1 {
+        font-size: 22px;
+        margin-bottom: 2px;
+    }
+    
+    .header-left h2 {
+        font-size: 14px;
+    }
+    
+    .contact-info li {
+        margin-bottom: 3px;
+        font-size: 9px;
+    }
+    
+    .professional-summary {
+        padding: 10px 25px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .professional-summary p {
+        font-size: 12px;
+        line-height: 1.3;
+        text-align: justify;
+        margin-bottom: 0;
+    }
+    
+    /* Preserve two-column layout for printing */
+    .two-column-section {
+        display: flex;
+        flex-wrap: nowrap; /* Prevent wrapping */
+        align-items: flex-start;
+    }
+    
+    .main-column {
+        flex: 2;
+        padding: 5px 10px;
+        font-size: 16px;
+        align-self: flex-start;
+        break-inside: auto; /* Allow breaking in the main column */
+    }
+    
+    .sidebar {
+        flex: 1;
+        padding: 10px 15px;
+        background-color: #f9f9f9;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        height: auto !important; /* Force height to be determined by content */
+        max-height: fit-content !important; /* Use fit-content to ensure it only takes up needed space */
+        overflow: visible;
+        break-inside: avoid; /* Prevent breaking inside sidebar */
+        align-self: flex-start;
+        border-right: 0.5px solid rgb(199, 196, 196) !important;
+    }
+    
+    /* Compact skill display */
+    .skills-categories {
+        gap: 5px;
+    }
+    
+    .skill-category {
+        margin-bottom: 8px;
+    }
+    
+    .skill-category h4 {
+        font-size: 10px;
+        margin-bottom: 2px;
+    }
+    
+    .skill-list {
+        gap: 3px;
+    }
+    
+    .skill-list li {
+        padding: 1px 6px;
+        font-size: 8px;
+        margin-bottom: 3px;
+        border-radius: 10px;
+    }
+    
+    /* Compact job sections */
+    .section-title {
+        margin-bottom: 8px;
+    }
+    
+    .section-title h3 {
+        font-size: 14px;
+    }
+    
+    .title-underline {
+        margin-top: 2px;
+        height: 2px;
+        width: 35px;
+    }
+    
+    .job {
+        margin-bottom: 8px;
+    }
+    
+    .job-header {
+        margin-bottom: 6px;
+    }
+    
+    .job-header h4 {
+        font-size: 13px;
+        margin-bottom: 1px;
+    }
+    
+    .company-info {
+        margin-bottom: 1px;
+    }
+    
+    .job-date {
+        font-size: 9px;
+    }
+    
+    .job-description {
+        padding-left: 15px;
+    }
+    
+    .job-description li {
+        margin-bottom: 1px;
+        font-size: 10px;
+    }
+    
+    /* Optimize other sections */
+    .experience, .education, .additional-info, .about-me, .skills {
+        margin-bottom: 12px;
+    }
+    
+    .education-item {
+        margin-bottom: 8px;
+    }
+    
+    .degree {
+        font-size: 11px;
+        margin-bottom: 1px;
+    }
+    
+    .university {
+        font-size: 10px;
+        margin-bottom: 1px;
+    }
+    
+    .education-date, .location {
+        font-size: 9px;
+    }
+    
+    /* Remove page-break restrictions that might cause problems */
+    .skills, .education, .additional-info, .about-me {
+        page-break-inside: auto;
+    }
+    
+    .job {
+        page-break-inside: auto;
+    }
+    
+    /* Set tight page margins */
+    @page {
+        margin: 0.3cm;
+    }
+    
+    /* Hide any elements not needed for print */
+    footer {
+        display: none;
+    }
+    
+    /* Fix for potential overflow issues */
+    * {
+        overflow: visible !important;
+    }
+    
+    /* Remove box shadows and other decorations that take up space */
+    .resume-container, .resume-section {
+        box-shadow: none;
+    }
+    
+    /* Force absolutely everything to be as compact as possible */
+    p, li, div, span {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        margin-top: 0;
+        margin-bottom: 2px;
+    }
+
+    /* Force page break before the special wrapper */
+    .print-page-break {
+        page-break-before: always;
+        display: block;
+        height: 0;
+    }
+    
+    /* Make full-width sections take up the entire page width */
+    .full-width-section {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 25px !important;
+        padding-right: 25px !important;
+    }
+    
+    /* Hide sidebar on second page */
+    .print-page-break ~ * .sidebar {
+        display: none !important;
+    }
+    
+    /* Make main column take full width after page break */
+    .print-page-break ~ * .main-column {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 25px !important;
+        padding-right: 25px !important;
+        border: none !important;
+    }
+    
+    /* Add a special rule to clear after the sidebar */
+    .two-column-section::after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+
+    /* Increase skill category headings size */
+    .skill-category h4 {
+        font-size: 10px; /* Increased from 10px */
+        font-weight: 600; /* Make slightly bolder */
+        margin-bottom: 3px; /* Slightly more space below */
+    }
+    
+    /* Increase skill list items size */
+    .skill-list li {
+        padding: 2px 8px; /* Slightly more padding */
+        font-size: 9px; /* Increased from 8px */
+        margin-bottom: 4px; /* More space between items */
+    }
+    
+    /* Increase skills section title */
+    .sidebar .section-title h3 {
+        font-size: 12px; /* Larger section title */
+    }
+    
+    /* Adjust skills categories spacing */
+    .skills-categories {
+        gap: 8px; /* Slightly more space between categories */
+    }
+    
+    /* Ensure sidebar border is visible in print */
+    .sidebar {
+        border-right: 0.5px solid rgb(216, 211, 211) !important;
+        background-color: transparent !important;
+        padding-right: 18px !important; /* Slightly more padding to accommodate larger text */
+    }
+}
