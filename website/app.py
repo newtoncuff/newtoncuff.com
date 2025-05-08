@@ -1,12 +1,13 @@
+# This is to prevent python from writing .pyc files to __pycache__ directories
+import sys
+sys.dont_write_bytecode = True
+
 from flask import Flask, send_from_directory, current_app
 from database import database_config
 from models import db
 from controllers import register_controllers
 
-import sys
 import base64
-
-sys.dont_write_bytecode = True
 
 """<-----Method Docstring
 Factory function to create and configure a Flask application instance.

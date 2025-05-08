@@ -9,9 +9,6 @@ def index():
     titleSubHeader = "Here you will find a collection of my thoughts, passions, delusions and interest!"
     return render_template("home.html", title=title, titleHeader =titleHeader, titleSubHeader=titleSubHeader)
 
-@main_controller.route("/resume")
+@main_controller.route("/resume/")
 def resume():
-    title = "Resume"
-    titleHeader = "My Resume"
-    titleSubHeader = "A brief overview of my professional journey."
-    return render_template("resume.html", title=title, titleHeader=titleHeader, titleSubHeader=titleSubHeader)
+    return render_template("resume.html")
