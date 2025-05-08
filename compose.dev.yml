@@ -41,6 +41,19 @@ services:
       - newtoncuff_network
     restart: always
 
+  redis:
+    container_name: newtoncuff_redis
+    build:
+      context: ./redis  # Point to the redis directory
+      dockerfile: Dockerfile
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: always
+    networks:
+      - newtoncuff_network
+
   nginx:
     build:
       context: ./nginx
@@ -59,3 +72,6 @@ networks:
   newtoncuff_network:
     name: newtoncuff_network
     driver: bridge
+
+volumes:
+  redis_data:

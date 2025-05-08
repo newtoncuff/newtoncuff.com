@@ -10,3 +10,4 @@ pyodbc>=4.0.32
 jinja2>=3.0.0
 mysql-connector-python==8.0.26
 requests==2.26.0
+redis>=4.3.4
