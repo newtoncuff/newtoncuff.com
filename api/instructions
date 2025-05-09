@@ -1,0 +1,33 @@
+Create example via powershell
+    Invoke-RestMethod -Uri "http://localhost:81/create_mindObject" -Method POST -ContentType "application/json" -Body '{
+        "topic": "Game Development",
+        "topicDesc": "Creating interactive digital experiences",
+        "subtopic": "Unity",
+        "subTopicDesc": "A popular game engine for cross-platform development",
+        "tag": "programming,games,creativity",
+        "hasTales": true,
+        "tableName": "Passions"
+     }'
+
+
+Delete example via powershell
+    Invoke-RestMethod -Uri "http://localhost:81/delete_mindObject/Passions/3" -Method DELETE
+
+Update example via powershell
+    Invoke-RestMethod -Uri "http://localhost:81/update_mindObject/Passions/2" -Method PUT -ContentType "application/json" -Body '{
+        "topic": "Game Development",
+        "topicDesc": "Creating interactive digital experiences and games",
+        "subtopic": "Unity Engine",
+        "subTopicDesc": "A powerful game engine for cross-platform development",
+        "tag": "programming,games,creativity,development",
+        "hasTales": true,
+        "tableName": "Passions"
+    }'
+
+
+Get example via powershell
+    get all
+        Invoke-RestMethod -Uri "http://localhost:81/get_all_mindObjects/Passions" -Method GET
+
+    get by id
+        Invoke-RestMethod -Uri "http://localhost:81/get_mindObject_by_id/Passions/1" -Method GET
