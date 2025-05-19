@@ -93,6 +93,7 @@ from models.mindObject import (
     MindObjectCreate, 
     create_mind_object,
     get_all_mind_objects,
+    get_all_mind_object_types,
     get_mind_object_by_id,
     update_mind_object,
     delete_mind_object,
@@ -103,6 +104,11 @@ from models.mindObject import (
 async def create_mindObject(item: MindObjectCreate):
     """Creates a new record in the specified mind object table."""
     return create_mind_object(item)
+
+@app.get("/getAll_mindObject_types")
+async def getAll_mindObject_types():
+    """Retrieves all mind object types from dastabase metadata."""
+    return get_all_mind_object_types()
 
 @app.get("/getAll_mindObjects/{table_name}")
 async def getAll_mindObjects(table_name: str):

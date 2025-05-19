@@ -5,9 +5,10 @@ from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
 from database.database_config import database_connection_uri
 from sqlalchemy import inspect
+from sqlalchemy.dialects.mysql import LONGTEXT
 
 # Models
-class Tale(SQLModel, table=True):  # Add table=True here
+class Tale(SQLModel):  # Add table=True here
     __tablename__ = "Tales"  # Explicitly specify the table name
     
     id: Optional[int] = Field(default=None, primary_key=True)

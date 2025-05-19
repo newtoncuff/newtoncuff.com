@@ -78,6 +78,26 @@ def create_mind_object(item: MindObjectCreate) -> Dict[str, Any]:
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")
 
+def get_all_mind_object_types() -> Dict[str, Any]:
+    """Get all mind object types"""
+    try:
+        # Get the table structure using reflection
+        metadata = MetaData()
+        metadata.reflect(bind=engine)
+        
+        # Return all table names
+        return {
+            "status": "success",
+            "tables": list(metadata.tables.keys())
+        }
+        
+    except HTTPException:
+        raise
+    except SQLAlchemyError as e:
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")
+
 def get_all_mind_objects(table_name: str) -> Dict[str, Any]:
     """Get all mind objects from a table"""
     try:
