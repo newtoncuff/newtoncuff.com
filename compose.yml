@@ -69,6 +69,7 @@ services:
       - "443:443"
     volumes:
       - /etc/letsencrypt/live/newtoncuff.com:/etc/nginx/certs/live/newtoncuff.com
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf  # Use prod config
     networks:
       - newtoncuff_network
 
